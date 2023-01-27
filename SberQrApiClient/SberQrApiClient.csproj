@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;netstandard2.1;</TargetFrameworks>
+        <AssemblyName>SberQrApiClient</AssemblyName>
+        <RootNamespace>SberQrApiClient</RootNamespace>
+        <Authors>Хатин С.А.</Authors>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <Version>1.0.0.0</Version>
+        <FileVersion>1.0.0.0</FileVersion>
+        <Description>Библиотека для работы с QR.API ПАО «Сбербанк»</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
+        <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\CoreLib\CoreLib.CORE.Extensions.Json\CoreLib.CORE.Extensions.Json.csproj"/>
+        <ProjectReference Include="..\..\CoreLib\CoreLib.CORE\CoreLib.CORE.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Resources\ErrorStrings.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>ErrorStrings.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Resources\ErrorStrings.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ErrorStrings.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+</Project>
