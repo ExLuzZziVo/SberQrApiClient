@@ -85,7 +85,7 @@ namespace SberQrApiClient.Types.Operations
         /// </summary>
         /// <param name="apiSettings">Настройки подключения к api</param>
         /// <returns>Задача, представляющая асинхронную операцию выполнения текущего запроса к api</returns>
-        public virtual async Task<T> ExecuteAsync(ISberQrApiSettings apiSettings)
+        public async Task<T> ExecuteAsync(ISberQrApiSettings apiSettings)
         {
             if (apiSettings == null)
             {
