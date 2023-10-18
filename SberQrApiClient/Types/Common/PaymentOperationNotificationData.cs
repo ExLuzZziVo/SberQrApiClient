@@ -3,7 +3,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Enums;
 
 #endregion
@@ -19,22 +19,22 @@ namespace SberQrApiClient.Types.Common
         /// Уникальный идентификатор запроса
         /// </summary>
         [Display(Name = "Уникальный идентификатор запроса")]
-        [JsonProperty("rqUid")]
+        [JsonPropertyName("rqUid")]
         public string RequestId { get; set; }
 
         /// <summary>
         /// Дата/время формирования запроса
         /// </summary>
         [Display(Name = "Дата/время формирования запроса")]
-        [JsonProperty("rqTm")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-ddTHH:mm:ssZ")]
+        [JsonPropertyName("rqTm")]
+        [CustomDateTimeConverter("yyyy-MM-ddTHH:mm:ssZ")]
         public DateTime RequestDateTime { get; set; }
 
         /// <summary>
         /// Идентификатор продавца
         /// </summary>
         [Display(Name = "Идентификатор продавца")]
-        [JsonProperty("memberId")]
+        [JsonPropertyName("memberId")]
         public string MerchantId { get; set; }
 
         /// <summary>
@@ -46,42 +46,42 @@ namespace SberQrApiClient.Types.Common
         /// </list>
         /// </summary>
         [Display(Name = "Идентификатор устройства, на котором сформирован заказ")]
-        [JsonProperty("idQR")]
+        [JsonPropertyName("idQR")]
         public string IdQr { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор терминала
         /// </summary>
         [Display(Name = "Уникальный идентификатор терминала")]
-        [JsonProperty("tid")]
+        [JsonPropertyName("tid")]
         public string TerminalId { get; set; }
 
         /// <summary>
         /// Идентификатор заказа в АС ППРБ.Карты
         /// </summary>
         [Display(Name = "Идентификатор заказа в АС ППРБ.Карты")]
-        [JsonProperty("orderId")]
+        [JsonPropertyName("orderId")]
         public string OrderId { get; set; }
 
         /// <summary>
         /// Номер заказа в системе продавца
         /// </summary>
         [Display(Name = "Номер заказа в системе продавца")]
-        [JsonProperty("partnerOrderNumber")]
+        [JsonPropertyName("partnerOrderNumber")]
         public string OrderNumber { get; set; }
 
         /// <summary>
         /// Статус заказа
         /// </summary>
         [Display(Name = "Статус заказа")]
-        [JsonProperty("orderState")]
+        [JsonPropertyName("orderState")]
         public OrderState OrderState { get; set; }
 
         /// <summary>
         /// Замаскированное ФИО плательщика
         /// </summary>
         [Display(Name = "Замаскированное ФИО плательщика")]
-        [JsonProperty("clientName")]
+        [JsonPropertyName("clientName")]
         public string ClientName { get; set; }
     }
 }

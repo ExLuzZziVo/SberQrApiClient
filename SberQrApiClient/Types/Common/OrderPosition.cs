@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Converters;
 
 #endregion
@@ -43,7 +43,7 @@ namespace SberQrApiClient.Types.Common
         /// <item>Максимальная длина: 256</item>
         /// </list>
         [Display(Name = "Наименование товарной позиции")]
-        [JsonProperty("position_name")]
+        [JsonPropertyName("position_name")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(256, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -56,7 +56,7 @@ namespace SberQrApiClient.Types.Common
         /// <item>Должно лежать в диапазоне: 1-999999</item>
         /// </list>
         [Display(Name = "Количество штук товарной позиции")]
-        [JsonProperty("position_count")]
+        [JsonPropertyName("position_count")]
         [Range(1, 999999, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "DigitRangeValuesError")]
         public int? Count { get; set; }
@@ -68,7 +68,7 @@ namespace SberQrApiClient.Types.Common
         /// <item>Должно лежать в диапазоне: 0.01-9999999999999.99</item>
         /// </list>
         [Display(Name = "Сумма товарной позиции")]
-        [JsonProperty("position_sum")]
+        [JsonPropertyName("position_sum")]
         [JsonConverter(typeof(AmountConverter))]
         [Range(0.01, 9999999999999.99, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "DigitRangeValuesError")]
@@ -82,7 +82,7 @@ namespace SberQrApiClient.Types.Common
         /// <item>Спецсимволы требуется экранировать</item>
         /// </list>
         [Display(Name = "Описание товарной позиции")]
-        [JsonProperty("position_description")]
+        [JsonPropertyName("position_description")]
         [MaxLength(1024, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
         public string Description { get; set; }

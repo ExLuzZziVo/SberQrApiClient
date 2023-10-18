@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 #endregion
 
@@ -10,13 +10,13 @@ namespace SberQrApiClient.Types.Operations.Authentication
     /// <summary>
     /// Результат аутентификации пользователя
     /// </summary>
-    public class AuthenticationResult
+    public class AuthenticationResult: OperationResult
     {
         /// <summary>
         /// Сгенерированный OAUTH-токен
         /// </summary>
         [Display(Name = "Сгенерированный OAUTH-токен")]
-        [JsonProperty("access_token")]
+        [JsonPropertyName("access_token")]
         public string AccessToken { get; set; }
 
         /// <summary>
@@ -26,14 +26,14 @@ namespace SberQrApiClient.Types.Operations.Authentication
         /// Всегда передается значение "Bearer"
         /// </remarks>
         [Display(Name = "Тип запрашиваемого токена")]
-        [JsonProperty("token_type")]
+        [JsonPropertyName("token_type")]
         public string TokenType { get; set; }
 
         /// <summary>
         /// Время в секундах, в течение которого действует OAUTH-токен
         /// </summary>
         [Display(Name = "Время в секундах, в течение которого действует OAUTH-токен")]
-        [JsonProperty("expires_in")]
+        [JsonPropertyName("expires_in")]
         public int ExpiresIn { get; set; }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace SberQrApiClient.Types.Operations.Authentication
         /// Список групп персональных данных, на получение которых выдан данный токен. В список так же по умолчанию включается название сервиса API
         /// </remarks>
         [Display(Name = "Список групп персональных данных, на получение которых выдан данный токен")]
-        [JsonProperty("scope")]
+        [JsonPropertyName("scope")]
         public string Scope { get; set; }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace SberQrApiClient.Types.Operations.Authentication
         /// Под каждый выпущенный токен создается сессия. Ее идентификатор передается в токене
         /// </remarks>
         [Display(Name = "Идентификатор сессии")]
-        [JsonProperty("session_state")]
+        [JsonPropertyName("session_state")]
         public string SessionState { get; set; }
     }
 }

@@ -3,7 +3,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Common;
 using SberQrApiClient.Types.Enums;
 
@@ -20,36 +20,36 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// Уникальный идентификатор запроса
         /// </summary>
         [Display(Name = "Уникальный идентификатор запроса")]
-        [JsonProperty("rqUid")]
+        [JsonPropertyName("rqUid")]
         public override string RequestId { get; set; }
 
         /// <summary>
         /// Дата/время формирования запроса
         /// </summary>
         [Display(Name = "Дата/время формирования запроса")]
-        [JsonProperty("rqTm")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-ddTHH:mm:ssZ")]
+        [JsonPropertyName("rqTm")]
+        [CustomDateTimeConverter("yyyy-MM-ddTHH:mm:ssZ")]
         public override DateTime RequestDateTime { get; set; }
 
         /// <summary>
         /// Код выполнения запроса
         /// </summary>
         [Display(Name = "Код выполнения запроса")]
-        [JsonProperty("errorCode")]
+        [JsonPropertyName("errorCode")]
         public override string ErrorCode { get; set; }
 
         /// <summary>
         /// Описание ошибки выполнения запроса
         /// </summary>
         [Display(Name = "Описание ошибки выполнения запроса")]
-        [JsonProperty("errorDescription")]
+        [JsonPropertyName("errorDescription")]
         public override string ErrorDescription { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор терминала
         /// </summary>
         [Display(Name = "Уникальный идентификатор терминала")]
-        [JsonProperty("tid")]
+        [JsonPropertyName("tid")]
         public string TerminalId { get; set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// </list>
         /// </summary>
         [Display(Name = "Идентификатор устройства, на котором сформирован заказ")]
-        [JsonProperty("idQR")]
+        [JsonPropertyName("idQR")]
         public string IdQr { get; set; }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// Заполняется в случае, если выбран тип реестра: <see cref="RegistryType.QUANTITY"/>
         /// </remarks>
         [Display(Name = "Данные отчета")]
-        [JsonProperty("quantityData")]
+        [JsonPropertyName("quantityData")]
         public QuantityRegistryData QuantityReportData { get; set; }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// Заполняется в случае, если выбран тип реестра: <see cref="RegistryType.REGISTRY"/>
         /// </remarks>
         [Display(Name = "Данные отчета")]
-        [JsonProperty("registryData")]
+        [JsonPropertyName("registryData")]
         public RegistryData RegistryReportData { get; set; }
     }
 }

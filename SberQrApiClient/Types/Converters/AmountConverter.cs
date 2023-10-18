@@ -1,7 +1,9 @@
 #region
 
 using System;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using CoreLib.CORE.Helpers.ObjectHelpers;
 
 #endregion
 
@@ -10,27 +12,63 @@ namespace SberQrApiClient.Types.Converters
     /// <summary>
     /// Конвертер для денежных величин. Платежный шлюз работает с int
     /// </summary>
-    public class AmountConverter : JsonConverter<decimal?>
+    public class AmountConverter : JsonConverter<object>
     {
-        public override void WriteJson(JsonWriter writer, decimal? value, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
         {
             if (value == null)
             {
-                writer.WriteNull();
+                writer.WriteNullValue();
+
+                return;
             }
-            else
+
+            if (!(value is decimal dec))
             {
-                writer.WriteValue((int)(Math.Round(value.Value, 2, MidpointRounding.AwayFromZero) * 100));
+                throw new JsonException(
+                    $"Unexpected value when converting amount. Expected Decimal but got {value.GetType()}.");
             }
+
+            writer.WriteNumberValue((int)(Math.Round(dec, 2, MidpointRounding.AwayFromZero) * 100));
         }
 
-        public override decimal? ReadJson(JsonReader reader, Type objectType, decimal? existingValue,
-            bool hasExistingValue,
-            JsonSerializer serializer)
+        public override object Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var value = (long?)reader.Value;
+            var isNullable = typeToConvert.IsNullable();
 
-            return value == null ? null : (decimal?)value / 100;
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                if (!isNullable)
+                {
+                    throw new JsonException($"Cannot convert null value to {typeToConvert}");
+                }
+
+                return null;
+            }
+
+            if (!reader.TryGetInt64(out var value))
+            {
+                var str = reader.GetString();
+
+                if (isNullable && string.IsNullOrEmpty(str))
+                {
+                    return null;
+                }
+
+                if (!long.TryParse(str, out var val))
+                {
+                    throw new JsonException($"Cannot convert '{str}' to decimal");
+                }
+
+                value = val;
+            }
+
+            return value / 100M;
+        }
+
+        public override bool CanConvert(Type typeToConvert)
+        {
+            return typeToConvert == typeof(decimal) || typeToConvert == typeof(decimal?);
         }
     }
 }

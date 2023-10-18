@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Common;
 using SberQrApiClient.Types.Enums;
 
@@ -18,14 +18,14 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
         /// Идентификатор продавца
         /// </summary>
         [Display(Name = "Идентификатор продавца")]
-        [JsonProperty("mid")]
+        [JsonPropertyName("mid")]
         public string MerchantId { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор терминала
         /// </summary>
         [Display(Name = "Уникальный идентификатор терминала")]
-        [JsonProperty("tid")]
+        [JsonPropertyName("tid")]
         public string TerminalId { get; set; }
 
         /// <summary>
@@ -37,28 +37,28 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
         /// </list>
         /// </summary>
         [Display(Name = "Идентификатор устройства, на котором сформирован заказ")]
-        [JsonProperty("id_qr")]
+        [JsonPropertyName("id_qr")]
         public string IdQr { get; set; }
 
         /// <summary>
         /// Идентификатор заказа в АС ППРБ.Карты
         /// </summary>
         [Display(Name = "Идентификатор заказа в АС ППРБ.Карты")]
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         public string OrderId { get; set; }
 
         /// <summary>
         /// Статус заказа
         /// </summary>
         [Display(Name = "Статус заказа")]
-        [JsonProperty("order_state")]
+        [JsonPropertyName("order_state")]
         public OrderState OrderState { get; set; }
 
         /// <summary>
         /// Операции, привязанные к заказу
         /// </summary>
         [Display(Name = "Операции, привязанные к заказу")]
-        [JsonProperty("order_operation_params")]
+        [JsonPropertyName("order_operation_params")]
         public OperationParams[] OrderOperationParams { get; set; }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
         /// Передается только для операции оплаты через СБП
         /// </remarks>
         [Display(Name = "Параметры операции СБП")]
-        [JsonProperty("sbp_operation_params")]
+        [JsonPropertyName("sbp_operation_params")]
         public SbpOperationParams SbpOperationParams { get; set; }
     }
 }

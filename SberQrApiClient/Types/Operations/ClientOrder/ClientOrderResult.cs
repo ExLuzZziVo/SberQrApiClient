@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 #endregion
 
@@ -16,7 +16,7 @@ namespace SberQrApiClient.Types.Operations.ClientOrder
         /// Результат выполнения операции
         /// </summary>
         [Display(Name = "Результат выполнения операции")]
-        [JsonProperty("PayRusClientQRRs")]
+        [JsonPropertyName("PayRusClientQRRs")]
         public ClientOrderResultPayload OperationResult { get; set; }
     }
 }

@@ -3,7 +3,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Common;
 using SberQrApiClient.Types.Converters;
 using SberQrApiClient.Types.Enums;
@@ -21,43 +21,43 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// Идентификатор заказа в АС ППРБ.Карты
         /// </summary>
         [Display(Name = "Идентификатор заказа в АС ППРБ.Карты")]
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         public string OrderId { get; set; }
 
         /// <summary>
         /// Статус заказа
         /// </summary>
         [Display(Name = "Статус заказа")]
-        [JsonProperty("order_status")]
+        [JsonPropertyName("order_status")]
         public OrderState? OrderState { get; set; }
 
         /// <summary>
         /// Идентификатор операции в АС ППРБ.Карты
         /// </summary>
         [Display(Name = "Идентификатор операции в АС ППРБ.Карты")]
-        [JsonProperty("operation_id")]
+        [JsonPropertyName("operation_id")]
         public string OperationId { get; set; }
 
         /// <summary>
         /// Дата/Время операции в АС ППРБ.Карты
         /// </summary>
         [Display(Name = "Дата/Время операции в АС ППРБ.Карты")]
-        [JsonProperty("operation_date_time")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-ddTHH:mm:ssZ")]
+        [JsonPropertyName("operation_date_time")]
+        [CustomDateTimeConverter("yyyy-MM-ddTHH:mm:ssZ")]
         public DateTime? OperationDateTime { get; set; }
 
         /// <summary>
         /// Тип операции
         /// </summary>
         [Display(Name = "Тип операции")]
-        [JsonProperty("operation_type")]
+        [JsonPropertyName("operation_type")]
         public OperationType? Type { get; set; }
 
         /// <summary>
         /// Сумма операции
         /// </summary>
         [Display(Name = "Сумма операции")]
-        [JsonProperty("operation_sum")]
+        [JsonPropertyName("operation_sum")]
         [JsonConverter(typeof(AmountConverter))]
         public decimal? Sum { get; set; }
 
@@ -68,28 +68,28 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// ISO 4217
         /// </remarks>
         [Display(Name = "Код валюты операции")]
-        [JsonProperty("operation_currency")]
+        [JsonPropertyName("operation_currency")]
         public string Currency { get; set; }
 
         /// <summary>
         /// Код авторизации
         /// </summary>
         [Display(Name = "Код авторизации")]
-        [JsonProperty("auth_code")]
+        [JsonPropertyName("auth_code")]
         public string AuthCode { get; set; }
 
         /// <summary>
         /// RRN операции
         /// </summary>
         [Display(Name = "RRN операции")]
-        [JsonProperty("rrn")]
+        [JsonPropertyName("rrn")]
         public string Rrn { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор терминала
         /// </summary>
         [Display(Name = "Уникальный идентификатор терминала")]
-        [JsonProperty("tid")]
+        [JsonPropertyName("tid")]
         public string TerminalId { get; set; }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// </list>
         /// </summary>
         [Display(Name = "Идентификатор устройства, на котором сформирован заказ")]
-        [JsonProperty("id_qr")]
+        [JsonPropertyName("id_qr")]
         public string IdQr { get; set; }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// Передается только для операции оплаты через СБП
         /// </remarks>
         [Display(Name = "Параметры операции СБП")]
-        [JsonProperty("sbp_operation_params")]
+        [JsonPropertyName("sbp_operation_params")]
         public SbpRefundOperationParams SbpOperationParams { get; set; }
     }
 }

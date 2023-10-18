@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 #endregion
 
@@ -19,7 +19,7 @@ namespace SberQrApiClient.Types.Common
         /// Информация только по успешным операциям
         /// </remarks>
         [Display(Name = "Параметры операции")]
-        [JsonProperty("orderOperationParam")]
+        [JsonPropertyName("orderOperationParam")]
         public RegistryOrderOperationParams[] OrderOperationParams { get; set; }
     }
 }

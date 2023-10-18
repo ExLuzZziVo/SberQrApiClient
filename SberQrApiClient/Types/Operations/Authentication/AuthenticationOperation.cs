@@ -3,15 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using CoreLib.CORE.Types;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Resources;
 using SberQrApiClient.Types.Interfaces;
 
@@ -22,15 +21,13 @@ namespace SberQrApiClient.Types.Operations.Authentication
     /// <summary>
     /// Аутентификация пользователя
     /// </summary>
-    public class AuthenticationOperation
+    public class AuthenticationOperation : Operation<AuthenticationResult>
     {
-        private IDictionary<string, object> _formData;
-
         /// <summary>
         /// Аутентификация пользователя
         /// </summary>
         /// <param name="scope">Область видимости запроса</param>
-        public AuthenticationOperation(string scope)
+        public AuthenticationOperation(string scope) : base("/tokens/v3/oauth", scope)
         {
             if (scope.IsNullOrEmptyOrWhiteSpace())
             {
@@ -40,38 +37,7 @@ namespace SberQrApiClient.Types.Operations.Authentication
                         GetType().GetProperty(nameof(Scope)).GetPropertyDisplayName()),
                     nameof(scope));
             }
-
-            Scope = scope;
-            RequestId = Guid.NewGuid().ToString("N");
         }
-
-        /// <summary>
-        /// Уникальный идентификатор запроса
-        /// </summary>
-        /// <list type="bullet">
-        /// <item>Обязательное поле</item>
-        /// <item>Максимальная длина: 32</item>
-        /// <item>Должно соответствовать регулярному выражению: "^(([0-9]|[a-f]|[A-F]){32})$"</item>
-        /// </list>
-        [Display(Name = "Уникальный идентификатор запроса")]
-        [JsonIgnore]
-        [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
-        [MaxLength(32, ErrorMessageResourceType = typeof(ValidationStrings),
-            ErrorMessageResourceName = "StringMaxLengthError")]
-        [RegularExpression("^(([0-9]|[a-f]|[A-F]){32})$", ErrorMessageResourceType = typeof(ValidationStrings),
-            ErrorMessageResourceName = "StringFormatError")]
-        public string RequestId { get; }
-
-        /// <summary>
-        /// Область видимости запроса
-        /// </summary>
-        /// <list type="bullet">
-        /// <item>Обязательное поле</item>
-        /// </list>
-        [Display(Name = "Область видимости запроса")]
-        [JsonProperty("scope")]
-        [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
-        public string Scope { get; }
 
         /// <summary>
         /// Тип разрешения
@@ -80,42 +46,12 @@ namespace SberQrApiClient.Types.Operations.Authentication
         /// <item>Обязательное поле</item>
         /// </list>
         [Display(Name = "Тип разрешения")]
-        [JsonProperty("grant_type")]
+        [JsonPropertyName("grant_type")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         public string GrantType { get; } = "client_credentials";
-
-        /// <summary>
-        /// Данные для выполнения запроса
-        /// </summary>
-        [JsonExtensionData]
-        public IDictionary<string, object> FormData
-        {
-            get => _formData ?? (_formData = new Dictionary<string, object>());
-            set => _formData = value;
-        }
-
-        /// <summary>
-        /// Асинхронная аутентификация пользователя
-        /// </summary>
-        /// <param name="apiSettings">Настройки подключения к api</param>
-        /// <returns>Задача, представляющая асинхронную операцию аутентификации пользователя</returns>
-        public async Task<AuthenticationResult> ExecuteAsync(ISberQrApiSettings apiSettings)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                var result = await ExecuteAsync(httpClient, apiSettings);
-
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// Асинхронная аутентификация пользователя при помощи <see cref="HttpClient"/>
-        /// </summary>
-        /// <param name="httpClient">HttpClient</param>
-        /// <param name="apiSettings">Настройки подключения к api</param>
-        /// <returns>Задача, представляющая асинхронную операцию аутентификации пользователя</returns>
-        public async Task<AuthenticationResult> ExecuteAsync(HttpClient httpClient, ISberQrApiSettings apiSettings)
+        
+        public override async Task<AuthenticationResult> ExecuteAsync(HttpClient httpClient,
+            ISberQrApiSettings apiSettings)
         {
             if (apiSettings == null)
             {
@@ -127,35 +63,29 @@ namespace SberQrApiClient.Types.Operations.Authentication
                 throw new ArgumentNullException(nameof(httpClient));
             }
 
+            if (apiSettings.ApiHost.IsNullOrEmptyOrWhiteSpace())
+            {
+                throw new InvalidOperationException(
+                    ErrorStrings.ResourceManager.GetString("NoApiHostInApiSettingsError"));
+            }
+
             if (apiSettings.ClientId.IsNullOrEmptyOrWhiteSpace() ||
                 apiSettings.ClientSecret.IsNullOrEmptyOrWhiteSpace())
             {
                 throw new ValidationException(ErrorStrings.ResourceManager.GetString("NoClientDataApiSettingsError"));
             }
 
-            var validationResults = new List<ValidationResult>(32);
-
-            Validator.TryValidateObject(this, new ValidationContext(this), validationResults, true);
-
-            if (validationResults.Count() != 0)
+            var dataToSend = new Dictionary<string, string>
             {
-                throw new ExtendedValidationException(validationResults);
-            }
-
-            var serializerSettings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore, TypeNameHandling = TypeNameHandling.None
+                { "grant_type", GrantType },
+                { "scope", Scope }
             };
 
-            var serializedData = JsonConvert.SerializeObject(this,
-                Formatting.None, serializerSettings);
-
-            var dataToSend =
-                JsonConvert.DeserializeObject<Dictionary<string, string>>(serializedData, serializerSettings);
+            var uriBuilder = new UriBuilder(apiSettings.ApiHost + "/" + ApiPath);
 
             string responseResult;
 
-            using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, "https://api.sberbank.ru/prod/tokens/v3/oauth")
+            using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, uriBuilder.Uri)
                    {
                        Content = new FormUrlEncodedContent(dataToSend)
                    })
@@ -184,7 +114,8 @@ namespace SberQrApiClient.Types.Operations.Authentication
                 return null;
             }
 
-            var result = JsonConvert.DeserializeObject<AuthenticationResult>(responseResult);
+            var result =
+                JsonSerializer.Deserialize<AuthenticationResult>(responseResult, OperationResultJsonSerializerOptions);
 
             return result;
         }

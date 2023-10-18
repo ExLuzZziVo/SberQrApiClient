@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Interfaces;
 
 #endregion
@@ -60,7 +60,7 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-]*$"</item>
         /// </list>
         [Display(Name = "Идентификатор заказа в АС ППРБ.Карты")]
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         [MaxLength(36, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
         [RegularExpression(@"^[A-Za-z0-9_\\-]*$", ErrorMessageResourceType = typeof(ValidationStrings),
@@ -76,7 +76,7 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-]*$"</item>
         /// </list>
         [Display(Name = "Уникальный идентификатор терминала")]
-        [JsonProperty("tid")]
+        [JsonPropertyName("tid")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(8, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -93,7 +93,7 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-]*$"</item>
         /// </list>
         [Display(Name = "Номер заказа в системе продавца")]
-        [JsonProperty("partner_order_number")]
+        [JsonPropertyName("partner_order_number")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(36, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]

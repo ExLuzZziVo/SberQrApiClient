@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 #endregion
 
@@ -16,7 +16,7 @@ namespace SberQrApiClient.Types.Common
         /// Перечень заказов
         /// </summary>
         [Display(Name = "Перечень заказов")]
-        [JsonProperty("orderParam")]
+        [JsonPropertyName("orderParam")]
         public RegistryOrderParams[] OrderParams { get; set; }
     }
 }

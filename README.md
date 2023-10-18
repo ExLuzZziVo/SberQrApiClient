@@ -1,17 +1,17 @@
 # SberQrApiClient
 Библиотека для работы с API SberPay QR/Плати QR банка Сбербанк.
-<br/>
-<br/>
-Создана по официальной документации со следующих источников: <a href="https://api.developer.sber.ru/product/PlatiQR/doc/v1/QR_API_doc1" rel="nofollow">1</a>.
-<br/>
-<br/>
-<b>Использовать только на свой страх и риск.</b>
-<br/>
-<br/>
-Пример использования:
-<br/>
 
-1. Для начала необходимо создать класс с настройками подключения к API банка, унаследовав его от интерфейса <b>SberQrApiClient.Types.Interfaces.ISberQrApiSettings</b>, например:
+
+Создана по официальной документации со следующих источников: [1](https://api.developer.sber.ru/product/PlatiQR/doc/v1/QR_API_doc1).
+
+
+**Использовать только на свой страх и риск.**
+
+
+Пример использования:
+
+
+1. Для начала необходимо создать класс с настройками подключения к API банка, унаследовав его от интерфейса **SberQrApiClient.Types.Interfaces.ISberQrApiSettings**, например:
 
 ```csharp
 public class SberQrApiSettings: ISberQrApiSettings
@@ -44,7 +44,7 @@ public class SberQrApiSettings: ISberQrApiSettings
 }
 ```
 
-2. После этого, задав значения свойств этих настроек(<b>ApiHost</b>, <b>ClientId</b>, <b>ClientSecret</b> - обязательны. <b>MerchantId</b>, <b>IdQr</b> - необязательны. Это значения по умолчанию. Метод <b>GetCertificateAsync()</b> необходимо реализовать, если не планируете использовать свой экземпляр HttpClient), можно запустить нужную операцию следующим образом:
+2. После этого, задав значения свойств этих настроек(**ApiHost**, **ClientId**, **ClientSecret** - обязательны. **MerchantId**, **IdQr** - необязательны. Это значения по умолчанию. Метод **GetCertificateAsync()** необходимо реализовать, если не планируете использовать свой экземпляр HttpClient), можно запустить нужную операцию следующим образом:
 
 ```csharp
 var apiSettings = new SberQrApiSettings();
@@ -54,7 +54,7 @@ var result = await new <Операция>.ExecuteAsync(_httpClient, apiSettings)
 var result = await new <Операция>.ExecuteAsync(apiSettings);
 ```
 
-Все доступные операции находятся в пространстве имен <b>SberQrApiSettings.Types.Operations</b>
-<br/>
-<br/>
-Зависимости CoreLib вы можете найти <a href="https://github.com/ExLuzZziVo/CoreLib" rel="nofollow">тут</a>.
+Все доступные операции находятся в пространстве имен **SberQrApiSettings.Types.Operations**
+
+
+Зависимости CoreLib вы можете найти [тут](https://github.com/ExLuzZziVo/CoreLib).

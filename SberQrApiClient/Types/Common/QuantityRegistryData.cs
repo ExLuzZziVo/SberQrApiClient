@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Converters;
 
 #endregion
@@ -17,14 +17,14 @@ namespace SberQrApiClient.Types.Common
         /// Общее количество успешных операций
         /// </summary>
         [Display(Name = "Общее количество успешных операций")]
-        [JsonProperty("totalCount")]
+        [JsonPropertyName("totalCount")]
         public int TotalCount { get; set; }
 
         /// <summary>
         /// Общая сумма покупок
         /// </summary>
         [Display(Name = "Общая сумма покупок")]
-        [JsonProperty("totalPaymentAmount")]
+        [JsonPropertyName("totalPaymentAmount")]
         [JsonConverter(typeof(AmountConverter))]
         public decimal TotalPaymentAmount { get; set; }
 
@@ -32,7 +32,7 @@ namespace SberQrApiClient.Types.Common
         /// Общая сумма возвратов и отмен
         /// </summary>
         [Display(Name = "Общая сумма возвратов и отмен")]
-        [JsonProperty("totalRefundAmount")]
+        [JsonPropertyName("totalRefundAmount")]
         [JsonConverter(typeof(AmountConverter))]
         public decimal TotalRefundAmount { get; set; }
 
@@ -40,7 +40,7 @@ namespace SberQrApiClient.Types.Common
         /// Сумма покупок за вычетом возвратов и отмен
         /// </summary>
         [Display(Name = "Сумма покупок за вычетом возвратов и отмен")]
-        [JsonProperty("totalAmount")]
+        [JsonPropertyName("totalAmount")]
         [JsonConverter(typeof(AmountConverter))]
         public decimal TotalAmount { get; set; }
     }

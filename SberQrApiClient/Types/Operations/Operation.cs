@@ -6,12 +6,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Xml;
 using CoreLib.CORE.Helpers.Converters;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
 using CoreLib.CORE.Types;
-using Newtonsoft.Json;
 using SberQrApiClient.Resources;
 using SberQrApiClient.Types.Interfaces;
 using SberQrApiClient.Types.Operations.Authentication;
@@ -22,6 +24,16 @@ namespace SberQrApiClient.Types.Operations
 {
     public abstract class Operation<T> : IValidatableObject where T : OperationResult
     {
+        protected static readonly JsonSerializerOptions OperationJsonSerializerOptions = new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = false,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
+        protected static readonly JsonSerializerOptions OperationResultJsonSerializerOptions =
+            new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        
         /// <summary>
         /// Создание запроса к api
         /// </summary>
@@ -55,7 +67,7 @@ namespace SberQrApiClient.Types.Operations
         /// <item>Максимальная длина: 32</item>
         /// </list>
         [Display(Name = "Уникальный идентификатор запроса")]
-        [JsonProperty("rq_uid")]
+        [JsonPropertyName("rq_uid")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(32, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -70,8 +82,8 @@ namespace SberQrApiClient.Types.Operations
         /// <item>Обязательное поле</item>
         /// </list>
         [Display(Name = "Дата/время формирования запроса")]
-        [JsonProperty("rq_tm")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-ddTHH:mm:ssZ")]
+        [JsonPropertyName("rq_tm")]
+        [CustomDateTimeConverter("yyyy-MM-ddTHH:mm:ssZ")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         public virtual DateTime RequestDateTime { get; }
 
@@ -136,7 +148,7 @@ namespace SberQrApiClient.Types.Operations
                 throw new InvalidOperationException(
                     ErrorStrings.ResourceManager.GetString("NoApiHostInApiSettingsError"));
             }
-
+            
             var validationResults = new List<ValidationResult>(32);
 
             Validator.TryValidateObject(this, new ValidationContext(this), validationResults, true);
@@ -150,12 +162,7 @@ namespace SberQrApiClient.Types.Operations
 
             var authenticationResult = await authenticationOperation.ExecuteAsync(httpClient, apiSettings);
 
-            var dataToSend = JsonConvert.SerializeObject(this,
-                Formatting.None,
-                new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore, TypeNameHandling = TypeNameHandling.None
-                });
+            var dataToSend = JsonSerializer.Serialize(this, GetType(), OperationJsonSerializerOptions);
 
             var uriBuilder = new UriBuilder(apiSettings.ApiHost + "/qr" + ApiPath);
             
@@ -188,7 +195,7 @@ namespace SberQrApiClient.Types.Operations
                 return null;
             }
 
-            var result = JsonConvert.DeserializeObject<T>(responseResult);
+            var result = JsonSerializer.Deserialize<T>(responseResult, OperationResultJsonSerializerOptions);
 
             return result;
         }

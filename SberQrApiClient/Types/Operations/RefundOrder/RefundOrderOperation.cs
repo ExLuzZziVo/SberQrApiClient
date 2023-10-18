@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Converters;
 using SberQrApiClient.Types.Enums;
 using SberQrApiClient.Types.Interfaces;
@@ -109,7 +109,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-]*$"</item>
         /// </list>
         [Display(Name = "Идентификатор заказа в АС ППРБ.Карты")]
-        [JsonProperty("order_id")]
+        [JsonPropertyName("order_id")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(36, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -124,7 +124,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Обязательное поле</item>
         /// </list>
         [Display(Name = "Тип операции")]
-        [JsonProperty("operation_type")]
+        [JsonPropertyName("operation_type")]
         public RefundOperationType? OperationType { get; set; }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-]*$"</item>
         /// </list>
         [Display(Name = "Идентификатор операции в АС ППРБ.Карты, которую требуется отменить")]
-        [JsonProperty("operation_id")]
+        [JsonPropertyName("operation_id")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(50, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -152,7 +152,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-]*$"</item>
         /// </list>
         [Display(Name = "Код авторизации")]
-        [JsonProperty("auth_code")]
+        [JsonPropertyName("auth_code")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(8, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -174,7 +174,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-]*$"</item>
         /// </list>
         [Display(Name = "Идентификатор устройства, на котором сформирован заказ")]
-        [JsonProperty("id_qr")]
+        [JsonPropertyName("id_qr")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(36, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -191,7 +191,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-]*$"</item>
         /// </list>
         [Display(Name = "Уникальный идентификатор терминала")]
-        [JsonProperty("tid")]
+        [JsonPropertyName("tid")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(8, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -207,7 +207,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Должно лежать в диапазоне: 0.01-9999999999999.99</item>
         /// </list>
         [Display(Name = "Сумма отмены/возврата")]
-        [JsonProperty("cancel_operation_sum")]
+        [JsonPropertyName("cancel_operation_sum")]
         [JsonConverter(typeof(AmountConverter))]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [Range(0.01, 9999999999999.99, ErrorMessageResourceType = typeof(ValidationStrings),
@@ -227,7 +227,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Должно соответствовать регулярному выражению: <see cref="RegexExtensions.PositiveNumberPattern"/></item>
         /// </list>
         [Display(Name = "Код валюты операции")]
-        [JsonProperty("operation_currency")]
+        [JsonPropertyName("operation_currency")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(3, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -246,7 +246,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-\\s\\+()\\*]*$"</item>
         /// </list>
         [Display(Name = "Идентификатор получателя")]
-        [JsonProperty("sbp_payer_id")]
+        [JsonPropertyName("sbp_payer_id")]
         [MaxLength(36, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
         [RegularExpression(@"^[A-Za-z0-9_\\-\\s\\+()\\*]*$", ErrorMessageResourceType = typeof(ValidationStrings),
@@ -261,7 +261,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <item>Спецсимволы требуется экранировать</item>
         /// </list>
         [Display(Name = "Назначение платежа")]
-        [JsonProperty("operation_description")]
+        [JsonPropertyName("operation_description")]
         [MaxLength(140, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
         public string OperationDescription { get; set; }

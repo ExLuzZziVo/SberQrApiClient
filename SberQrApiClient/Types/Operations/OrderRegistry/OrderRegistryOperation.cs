@@ -10,7 +10,7 @@ using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Helpers.ValidationHelpers.Attributes;
 using CoreLib.CORE.Resources;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Enums;
 using SberQrApiClient.Types.Interfaces;
 
@@ -66,7 +66,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// <item>Должно соответствовать регулярному выражению: "^(([0-9]|[a-f]|[A-F]){32})$"</item>
         /// </list>
         [Display(Name = "Уникальный идентификатор запроса")]
-        [JsonProperty("rqUid")]
+        [JsonPropertyName("rqUid")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(32, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -81,8 +81,8 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// <item>Обязательное поле</item>
         /// </list>
         [Display(Name = "Дата/время формирования запроса")]
-        [JsonProperty("rqTm")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-ddTHH:mm:ssZ")]
+        [JsonPropertyName("rqTm")]
+        [CustomDateTimeConverter("yyyy-MM-ddTHH:mm:ssZ")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         public override DateTime RequestDateTime { get; }
 
@@ -100,7 +100,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// <item>Должно соответствовать регулярному выражению: "^[A-Za-z0-9_\\-]*$"</item>
         /// </list>
         [Display(Name = "Идентификатор устройства, на котором сформирован заказ")]
-        [JsonProperty("idQR")]
+        [JsonPropertyName("idQR")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(36, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -115,8 +115,8 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// <item>Обязательное поле</item>
         /// </list>
         [Display(Name = "Дата/время начала периода создания заказа в АС ППРБ.Карты по МСК")]
-        [JsonProperty("startPeriod")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-ddTHH:mm:ssZ")]
+        [JsonPropertyName("startPeriod")]
+        [CustomDateTimeConverter("yyyy-MM-ddTHH:mm:ssZ")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         public DateTime StartPeriod { get; }
 
@@ -128,8 +128,8 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// <item>Должно быть больше или равно: <see cref="StartPeriod"/></item>
         /// </list>
         [Display(Name = "Дата/время конца периода создания заказа в АС ППРБ.Карты по МСК")]
-        [JsonProperty("endPeriod")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-ddTHH:mm:ssZ")]
+        [JsonPropertyName("endPeriod")]
+        [CustomDateTimeConverter("yyyy-MM-ddTHH:mm:ssZ")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [CompareTo(nameof(StartPeriod), ComparisonType.GreaterOrEqual,
             ErrorMessageResourceType = typeof(ValidationStrings),
@@ -143,7 +143,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// <item>Обязательное поле</item>
         /// </list>
         [Display(Name = "Тип реестра")]
-        [JsonProperty("registryType")]
+        [JsonPropertyName("registryType")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         public RegistryType RegistryType { get; }
 

@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 #endregion
 
@@ -16,14 +16,14 @@ namespace SberQrApiClient.Types.Common
         /// Идентификатор операции в СБП
         /// </summary>
         [Display(Name = "Идентификатор операции в СБП")]
-        [JsonProperty("sbp_operation_id")]
+        [JsonPropertyName("sbp_operation_id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Замаскированный идентификатор плательщика
         /// </summary>
         [Display(Name = "Замаскированный идентификатор плательщика")]
-        [JsonProperty("sbp_masked_payer_id")]
+        [JsonPropertyName("sbp_masked_payer_id")]
         public string PayerId { get; set; }
     }
 }
