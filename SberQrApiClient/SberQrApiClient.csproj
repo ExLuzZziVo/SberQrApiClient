@@ -5,7 +5,7 @@
         <AssemblyName>SberQrApiClient</AssemblyName>
         <RootNamespace>SberQrApiClient</RootNamespace>
         <PackageId>SberQrApiClient</PackageId>
-        <VersionPrefix>1.0.1</VersionPrefix>
+        <VersionPrefix>1.0.2</VersionPrefix>
         <Authors>Khatin S.A.</Authors>
         <Description>Библиотека для работы с QR.API ПАО «Сбербанк»</Description>
         <PackageProjectUrl>https://github.com/ExLuzZziVo/SberQrApiClient</PackageProjectUrl>
