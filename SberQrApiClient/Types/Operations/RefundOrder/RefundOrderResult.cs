@@ -2,8 +2,8 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
-using CoreLib.CORE.Helpers.Converters;
 using System.Text.Json.Serialization;
+using CoreLib.CORE.Helpers.Converters;
 using SberQrApiClient.Types.Common;
 using SberQrApiClient.Types.Converters;
 using SberQrApiClient.Types.Enums;
@@ -15,7 +15,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
     /// <summary>
     /// Результат отмены/возврата финансовой операции
     /// </summary>
-    public class RefundOrderResult : OperationResult
+    public class RefundOrderResult: OperationResult
     {
         /// <summary>
         /// Идентификатор заказа в АС ППРБ.Карты

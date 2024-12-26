@@ -2,8 +2,8 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
-using CoreLib.CORE.Helpers.Converters;
 using System.Text.Json.Serialization;
+using CoreLib.CORE.Helpers.Converters;
 using SberQrApiClient.Types.Common;
 using SberQrApiClient.Types.Enums;
 
@@ -14,7 +14,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
     /// <summary>
     /// Результат запроса реестра операций
     /// </summary>
-    public class OrderRegistryResult : OperationResult
+    public class OrderRegistryResult: OperationResult
     {
         /// <summary>
         /// Уникальный идентификатор запроса

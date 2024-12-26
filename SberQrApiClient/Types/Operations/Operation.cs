@@ -3,13 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Xml;
 using CoreLib.CORE.Helpers.Converters;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
@@ -22,7 +20,7 @@ using SberQrApiClient.Types.Operations.Authentication;
 
 namespace SberQrApiClient.Types.Operations
 {
-    public abstract class Operation<T> : IValidatableObject where T : OperationResult
+    public abstract class Operation<T>: IValidatableObject where T : OperationResult
     {
         protected static readonly JsonSerializerOptions OperationJsonSerializerOptions = new JsonSerializerOptions
         {
@@ -33,7 +31,7 @@ namespace SberQrApiClient.Types.Operations
 
         protected static readonly JsonSerializerOptions OperationResultJsonSerializerOptions =
             new JsonSerializerOptions(JsonSerializerDefaults.Web);
-        
+
         /// <summary>
         /// Создание запроса к api
         /// </summary>
@@ -148,12 +146,12 @@ namespace SberQrApiClient.Types.Operations
                 throw new InvalidOperationException(
                     ErrorStrings.ResourceManager.GetString("NoApiHostInApiSettingsError"));
             }
-            
+
             var validationResults = new List<ValidationResult>(32);
 
             Validator.TryValidateObject(this, new ValidationContext(this), validationResults, true);
 
-            if (validationResults.Count() != 0)
+            if (validationResults.Count != 0)
             {
                 throw new ExtendedValidationException(validationResults);
             }
@@ -165,7 +163,7 @@ namespace SberQrApiClient.Types.Operations
             var dataToSend = JsonSerializer.Serialize(this, GetType(), OperationJsonSerializerOptions);
 
             var uriBuilder = new UriBuilder(apiSettings.ApiHost + "/qr" + ApiPath);
-            
+
             string responseResult;
 
             using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, uriBuilder.Uri)

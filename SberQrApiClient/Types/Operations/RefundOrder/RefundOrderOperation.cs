@@ -3,12 +3,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Converters;
 using SberQrApiClient.Types.Enums;
 using SberQrApiClient.Types.Interfaces;
@@ -20,7 +20,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
     /// <summary>
     /// Отмена/возврат финансовой операции
     /// </summary>
-    public class RefundOrderOperation : Operation<RefundOrderResult>
+    public class RefundOrderOperation: Operation<RefundOrderResult>
     {
         /// <summary>
         /// Отмена/возврат финансовой операции
@@ -32,7 +32,8 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
         /// <param name="idQr">Идентификатор устройства, на котором сформирован заказ</param>
         /// <param name="terminalId">Уникальный идентификатор терминала</param>
         public RefundOrderOperation(string orderId, string operationId, string authCode,
-            decimal cancelOperationSum, string idQr = null, string terminalId = null) : base("/order/v3/cancel", "https://api.sberbank.ru/qr/order.cancel")
+            decimal cancelOperationSum, string idQr = null, string terminalId = null): base("/order/v3/cancel",
+            "https://api.sberbank.ru/qr/order.cancel")
         {
             if (orderId.IsNullOrEmptyOrWhiteSpace() || orderId.Length > 36 ||
                 !Regex.IsMatch(orderId, @"^[A-Za-z0-9_\\-]*$"))
@@ -73,7 +74,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
             }
 
             if (!idQr.IsNullOrEmptyOrWhiteSpace() && (idQr.Length > 20 ||
-                !Regex.IsMatch(idQr, @"^[A-Za-z0-9_\\-]*$")))
+                                                      !Regex.IsMatch(idQr, @"^[A-Za-z0-9_\\-]*$")))
             {
                 throw new ArgumentException(
                     string.Format(
@@ -81,9 +82,9 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
                         GetType().GetProperty(nameof(IdQr)).GetPropertyDisplayName()),
                     nameof(idQr));
             }
-            
+
             if (!terminalId.IsNullOrEmptyOrWhiteSpace() && (terminalId.Length > 8 ||
-                !Regex.IsMatch(terminalId, @"^[A-Za-z0-9_\\-]*$")))
+                                                            !Regex.IsMatch(terminalId, @"^[A-Za-z0-9_\\-]*$")))
             {
                 throw new ArgumentException(
                     string.Format(
@@ -91,7 +92,7 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
                         GetType().GetProperty(nameof(TerminalId)).GetPropertyDisplayName()),
                     nameof(terminalId));
             }
-            
+
             OrderId = orderId;
             OperationId = operationId;
             AuthCode = authCode;
@@ -272,12 +273,12 @@ namespace SberQrApiClient.Types.Operations.RefundOrder
             {
                 IdQr = apiSettings.IdQr;
             }
-            
+
             if (TerminalId.IsNullOrEmptyOrWhiteSpace())
             {
                 TerminalId = apiSettings.IdQr;
             }
-            
+
             return base.ExecuteAsync(httpClient, apiSettings);
         }
     }

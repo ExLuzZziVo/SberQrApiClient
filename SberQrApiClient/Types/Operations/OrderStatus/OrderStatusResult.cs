@@ -12,7 +12,7 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
     /// <summary>
     /// Результат запроса статуса заказа
     /// </summary>
-    public class OrderStatusResult : OperationResult
+    public class OrderStatusResult: OperationResult
     {
         /// <summary>
         /// Идентификатор продавца

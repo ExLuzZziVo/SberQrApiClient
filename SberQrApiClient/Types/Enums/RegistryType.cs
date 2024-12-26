@@ -11,7 +11,7 @@ namespace SberQrApiClient.Types.Enums
     /// Тип реестра
     /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum RegistryType : byte
+    public enum RegistryType: byte
     {
         /// <summary>
         /// Агрегация по количеству операций

@@ -11,7 +11,7 @@ namespace SberQrApiClient.Types.Enums
     /// Тип операции
     /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum OperationType : byte
+    public enum OperationType: byte
     {
         /// <summary>
         /// Оплата

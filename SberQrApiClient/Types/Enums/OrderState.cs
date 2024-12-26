@@ -11,7 +11,7 @@ namespace SberQrApiClient.Types.Enums
     /// Статус заказа
     /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum OrderState : byte
+    public enum OrderState: byte
     {
         [Display(Name =
             "В привязке к заказу есть успешная операция покупки на сумму заказа/успешная операция покупки и неуспешная(-ые) операции отмены")]

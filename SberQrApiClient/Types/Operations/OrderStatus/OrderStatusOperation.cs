@@ -3,12 +3,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Interfaces;
 
 #endregion
@@ -18,14 +18,14 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
     /// <summary>
     /// Запрос статуса заказа
     /// </summary>
-    public class OrderStatusOperation : Operation<OrderStatusResult>
+    public class OrderStatusOperation: Operation<OrderStatusResult>
     {
         /// <summary>
         /// Запрос статуса заказа
         /// </summary>
         /// <param name="orderNumber">Номер заказа в системе продавца</param>
         /// <param name="terminalId">Уникальный идентификатор терминала</param>
-        public OrderStatusOperation(string orderNumber, string terminalId = null) : base("/order/v3/status",
+        public OrderStatusOperation(string orderNumber, string terminalId = null): base("/order/v3/status",
             "https://api.sberbank.ru/qr/order.status")
         {
             if (orderNumber.IsNullOrEmptyOrWhiteSpace() || orderNumber.Length > 36 ||
@@ -39,7 +39,7 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
             }
 
             if (!terminalId.IsNullOrEmptyOrWhiteSpace() && (terminalId.Length > 8 ||
-                !Regex.IsMatch(terminalId, @"^[A-Za-z0-9_\\-]*$")))
+                                                            !Regex.IsMatch(terminalId, @"^[A-Za-z0-9_\\-]*$")))
             {
                 throw new ArgumentException(
                     string.Format(
@@ -47,7 +47,7 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
                         GetType().GetProperty(nameof(TerminalId)).GetPropertyDisplayName()),
                     nameof(terminalId));
             }
-            
+
             TerminalId = terminalId;
             OrderNumber = orderNumber;
         }
@@ -107,7 +107,7 @@ namespace SberQrApiClient.Types.Operations.OrderStatus
             {
                 TerminalId = apiSettings.IdQr;
             }
-            
+
             return base.ExecuteAsync(httpClient, apiSettings);
         }
     }

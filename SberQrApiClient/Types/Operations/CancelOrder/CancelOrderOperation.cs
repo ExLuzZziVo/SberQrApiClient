@@ -2,11 +2,11 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using System.Text.Json.Serialization;
 
 #endregion
 
@@ -18,7 +18,7 @@ namespace SberQrApiClient.Types.Operations.CancelOrder
     /// <remarks>
     /// До проведения финансовой операции
     /// </remarks>
-    public class CancelOrderOperation : Operation<CancelOrderResult>
+    public class CancelOrderOperation: Operation<CancelOrderResult>
     {
         /// <summary>
         /// Отмена сформированного заказа
@@ -27,7 +27,7 @@ namespace SberQrApiClient.Types.Operations.CancelOrder
         /// До проведения финансовой операции
         /// </remarks>
         /// <param name="orderId">Идентификатор заказа в АС ППРБ.Карты</param>
-        public CancelOrderOperation(string orderId) : base("/order/v3/revocation",
+        public CancelOrderOperation(string orderId): base("/order/v3/revocation",
             "https://api.sberbank.ru/qr/order.revoke")
         {
             if (orderId.IsNullOrEmptyOrWhiteSpace() || orderId.Length > 36 ||

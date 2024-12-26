@@ -14,7 +14,7 @@ namespace SberQrApiClient.Types.Operations.CancelOrder
     /// <remarks>
     /// До проведения финансовой операции
     /// </remarks>
-    public class CancelOrderResult : OperationResult
+    public class CancelOrderResult: OperationResult
     {
         /// <summary>
         /// Идентификатор заказа в АС ППРБ.Карты

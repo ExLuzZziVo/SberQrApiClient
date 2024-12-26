@@ -2,10 +2,10 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Converters;
 
 #endregion

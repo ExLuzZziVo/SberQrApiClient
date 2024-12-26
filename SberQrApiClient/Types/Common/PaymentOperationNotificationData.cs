@@ -2,8 +2,8 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
-using CoreLib.CORE.Helpers.Converters;
 using System.Text.Json.Serialization;
+using CoreLib.CORE.Helpers.Converters;
 using SberQrApiClient.Types.Enums;
 
 #endregion
@@ -13,7 +13,7 @@ namespace SberQrApiClient.Types.Common
     /// <summary>
     /// Уведомление об оплате заказа
     /// </summary>
-    public class PaymentOperationNotificationData : RegistryOrderOperationParams
+    public class PaymentOperationNotificationData: RegistryOrderOperationParams
     {
         /// <summary>
         /// Уникальный идентификатор запроса

@@ -11,7 +11,7 @@ namespace SberQrApiClient.Types.Operations.CreateOrder
     /// <summary>
     /// Результат создания заказа
     /// </summary>
-    public class CreateOrderResult : OperationResult
+    public class CreateOrderResult: OperationResult
     {
         /// <summary>
         /// Номер заказа в системе продавца

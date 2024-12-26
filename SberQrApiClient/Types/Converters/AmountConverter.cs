@@ -12,7 +12,7 @@ namespace SberQrApiClient.Types.Converters
     /// <summary>
     /// Конвертер для денежных величин. Платежный шлюз работает с int
     /// </summary>
-    public class AmountConverter : JsonConverter<object>
+    public class AmountConverter: JsonConverter<object>
     {
         public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
         {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoreLib.CORE.Helpers.Converters;
@@ -12,7 +13,6 @@ using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Helpers.ValidationHelpers.Attributes;
 using CoreLib.CORE.Resources;
-using System.Text.Json.Serialization;
 using SberQrApiClient.Resources;
 using SberQrApiClient.Types.Common;
 using SberQrApiClient.Types.Converters;
@@ -25,7 +25,7 @@ namespace SberQrApiClient.Types.Operations.CreateOrder
     /// <summary>
     /// Создание заказа
     /// </summary>
-    public class CreateOrderOperation : Operation<CreateOrderResult>
+    public class CreateOrderOperation: Operation<CreateOrderResult>
     {
         /// <summary>
         /// Создание заказа
@@ -36,10 +36,9 @@ namespace SberQrApiClient.Types.Operations.CreateOrder
         /// <param name="merchantId">Идентификатор продавца</param>
         /// <param name="idQr">Идентификатор устройства, на котором сформирован заказ</param>
         public CreateOrderOperation(string orderNumber, decimal amount,
-            DateTime orderCreationDate, string merchantId = null, string idQr = null) : base("/order/v3/creation", "https://api.sberbank.ru/qr/order.create")
+            DateTime orderCreationDate, string merchantId = null, string idQr = null): base("/order/v3/creation",
+            "https://api.sberbank.ru/qr/order.create")
         {
-            
-
             if (orderNumber.IsNullOrEmptyOrWhiteSpace() || orderNumber.Length > 36 ||
                 !Regex.IsMatch(orderNumber, @"^[A-Za-z0-9_\\-]*$"))
             {
@@ -58,7 +57,7 @@ namespace SberQrApiClient.Types.Operations.CreateOrder
             }
 
             if (!merchantId.IsNullOrEmptyOrWhiteSpace() && (merchantId.Length != 8 ||
-                !Regex.IsMatch(merchantId, @"^[A-Za-z0-9_\\-]{8}$")))
+                                                            !Regex.IsMatch(merchantId, @"^[A-Za-z0-9_\\-]{8}$")))
             {
                 throw new ArgumentException(
                     string.Format(
@@ -66,9 +65,9 @@ namespace SberQrApiClient.Types.Operations.CreateOrder
                         GetType().GetProperty(nameof(MerchantId)).GetPropertyDisplayName()),
                     nameof(merchantId));
             }
-            
+
             if (!idQr.IsNullOrEmptyOrWhiteSpace() && (idQr.Length > 20 ||
-                !Regex.IsMatch(idQr, @"^[A-Za-z0-9_\\-]*$")))
+                                                      !Regex.IsMatch(idQr, @"^[A-Za-z0-9_\\-]*$")))
             {
                 throw new ArgumentException(
                     string.Format(
@@ -76,7 +75,7 @@ namespace SberQrApiClient.Types.Operations.CreateOrder
                         GetType().GetProperty(nameof(IdQr)).GetPropertyDisplayName()),
                     nameof(idQr));
             }
-            
+
             MerchantId = merchantId;
             OrderNumber = orderNumber;
             OrderCreationDate = orderCreationDate;
@@ -264,7 +263,7 @@ namespace SberQrApiClient.Types.Operations.CreateOrder
             {
                 IdQr = apiSettings.IdQr;
             }
-            
+
             return base.ExecuteAsync(httpClient, apiSettings);
         }
     }

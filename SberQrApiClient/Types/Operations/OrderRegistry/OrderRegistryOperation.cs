@@ -3,6 +3,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CoreLib.CORE.Helpers.Converters;
@@ -10,7 +11,6 @@ using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Helpers.ValidationHelpers.Attributes;
 using CoreLib.CORE.Resources;
-using System.Text.Json.Serialization;
 using SberQrApiClient.Types.Enums;
 using SberQrApiClient.Types.Interfaces;
 
@@ -21,7 +21,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
     /// <summary>
     /// Запрос реестра операций
     /// </summary>
-    public class OrderRegistryOperation : Operation<OrderRegistryResult>
+    public class OrderRegistryOperation: Operation<OrderRegistryResult>
     {
         /// <summary>
         /// Запрос реестра операций
@@ -30,7 +30,8 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
         /// <param name="endPeriod">Дата/время конца периода создания заказа в АС ППРБ.Карты по МСК</param>
         /// <param name="registryType">Тип реестра</param>
         /// <param name="idQr">Идентификатор устройства, на котором сформирован заказ</param>
-        public OrderRegistryOperation(DateTime startPeriod, DateTime endPeriod, RegistryType registryType, string idQr = null)
+        public OrderRegistryOperation(DateTime startPeriod, DateTime endPeriod, RegistryType registryType,
+            string idQr = null)
             : base("/order/v3/registry", "auth://qr/order.registry")
         {
             if (startPeriod > endPeriod)
@@ -42,7 +43,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
             }
 
             if (!idQr.IsNullOrEmptyOrWhiteSpace() && (idQr.Length > 20 ||
-                !Regex.IsMatch(idQr, @"^[A-Za-z0-9_\\-]*$")))
+                                                      !Regex.IsMatch(idQr, @"^[A-Za-z0-9_\\-]*$")))
             {
                 throw new ArgumentException(
                     string.Format(
@@ -50,7 +51,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
                         GetType().GetProperty(nameof(IdQr)).GetPropertyDisplayName()),
                     nameof(idQr));
             }
-            
+
             IdQr = idQr;
             StartPeriod = startPeriod;
             EndPeriod = endPeriod;
@@ -153,7 +154,7 @@ namespace SberQrApiClient.Types.Operations.OrderRegistry
             {
                 IdQr = apiSettings.IdQr;
             }
-            
+
             return base.ExecuteAsync(httpClient, apiSettings);
         }
     }

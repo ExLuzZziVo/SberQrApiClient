@@ -28,12 +28,12 @@ namespace SberQrApiClient.Types.Interfaces
         /// Идентификатор продавца
         /// </summary>
         string MerchantId { get; }
-        
+
         /// <summary>
         /// Идентификатор устройства, на котором сформирован заказ
         /// </summary>
         string IdQr { get; }
-        
+
         /// <summary>
         /// Асинхронное получение сертификата пользователя для отправки запросов
         /// </summary>

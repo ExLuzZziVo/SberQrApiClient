@@ -6,11 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using System.Text.Json.Serialization;
 using SberQrApiClient.Resources;
 using SberQrApiClient.Types.Interfaces;
 
@@ -21,13 +21,13 @@ namespace SberQrApiClient.Types.Operations.Authentication
     /// <summary>
     /// Аутентификация пользователя
     /// </summary>
-    public class AuthenticationOperation : Operation<AuthenticationResult>
+    public class AuthenticationOperation: Operation<AuthenticationResult>
     {
         /// <summary>
         /// Аутентификация пользователя
         /// </summary>
         /// <param name="scope">Область видимости запроса</param>
-        public AuthenticationOperation(string scope) : base("/tokens/v3/oauth", scope)
+        public AuthenticationOperation(string scope): base("/tokens/v3/oauth", scope)
         {
             if (scope.IsNullOrEmptyOrWhiteSpace())
             {
@@ -49,7 +49,7 @@ namespace SberQrApiClient.Types.Operations.Authentication
         [JsonPropertyName("grant_type")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         public string GrantType { get; } = "client_credentials";
-        
+
         public override async Task<AuthenticationResult> ExecuteAsync(HttpClient httpClient,
             ISberQrApiSettings apiSettings)
         {

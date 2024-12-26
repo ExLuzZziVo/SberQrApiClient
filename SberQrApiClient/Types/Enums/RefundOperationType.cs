@@ -11,7 +11,7 @@ namespace SberQrApiClient.Types.Enums
     /// Тип операции возврата/отмены
     /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum RefundOperationType : byte
+    public enum RefundOperationType: byte
     {
         /// <summary>
         /// Возврат

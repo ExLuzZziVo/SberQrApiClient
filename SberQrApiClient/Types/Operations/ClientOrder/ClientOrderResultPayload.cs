@@ -12,7 +12,7 @@ namespace SberQrApiClient.Types.Operations.ClientOrder
     /// <summary>
     /// Полезная нагрузка результата проведения платежа по Qr-коду покупателя
     /// </summary>
-    public class ClientOrderResultPayload : OperationResult
+    public class ClientOrderResultPayload: OperationResult
     {
         /// <summary>
         /// Идентификатор продавца
